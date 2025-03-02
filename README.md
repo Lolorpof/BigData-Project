@@ -1,4 +1,4 @@
-Have these python libraries install
+# Have these python libraries install
 
 ### Library
 
@@ -17,6 +17,6 @@ pip install acopy[plot]
 pip install aco_routing
 ```
 
-# about current time in 'optimizedNow.py'
+# About current time in 'optimizedNow.py'
 
 - Some system may use UTC+0 time so add `timedelta(hours=7)` to `currentTime`

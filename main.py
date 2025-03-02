@@ -1,6 +1,8 @@
 from optimizer import optimizedAll as optAll
 from optimizer import optimizedNow as optNow
 
-# optAll.optimize()
+# Run ACO for all time intervals
+optAll.optimize()
 
-optNow.optimize()
+# Run ACO for the current time interval
+# optNow.optimize()

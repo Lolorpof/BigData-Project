@@ -34,8 +34,8 @@ def optimize():
 
     # Get specific time and range
     # datetime now depends on system?
-    currentTime = datetime.now() 
-    # currentTime = datetime.now() + timedelta(hours=7)
+    # currentTime = datetime.now() 
+    currentTime = datetime.now() + timedelta(hours=10)
 
     currentMin = currentTime.minute
     start_hour = currentTime.hour
@@ -47,7 +47,8 @@ def optimize():
     end_time = currentTime.replace(hour=end_hour, minute=end_min, second=0, microsecond=0)
 
     # for debugging
-    # print(currentTime.time().strftime("%H:%M:%S"))
+    ct = currentTime.time().strftime("%H:%M:%S")
+    print(f"Current Time: {ct}")
     # print(start_time.time())
     # print(end_time.time())
 
@@ -91,11 +92,28 @@ def optimize():
         CG.add_edge(start, end, weight=distance)
 
     # call aco
-    aco_path, aco_cost = aco.aco2(rlg.initGraph(), CG, distWeight, trafficWeight)
-    node_path = []
-    for node in aco_path:
-        node_path.append(CG.nodes[node]['label'])
-    print(f"{df['Time Interval'][currentInd]}: [{' -> '.join(map(str, node_path))}]")
+    write_csv = []
+    try:
+        aco_path, aco_cost = aco.aco2(rlg.initGraph(), CG, distWeight, trafficWeight)
+        node_path = []
+        for node in aco_path:
+            node_path.append(CG.nodes[node]['label'])
+    except Exception:
+        # debug
+        # print(f"{df['Time Interval'][currentInd]}: No path found")
+        write_csv.append([df['Time Interval'][currentInd], 'No path found', aco_cost])
+    else:
+        # debug
+        # print(f"{df['Time Interval'][currentInd]}: [{' -> '.join(map(str, node_path))}]")
+        write_csv.append([df['Time Interval'][currentInd], ' -> '.join(map(str, node_path)), aco_cost])
 
+    # Convert the result list into a DataFrame
+    columns = ['Time Interval', 'Optimal Path', 'Cost']
+    df_result = pd.DataFrame(write_csv, columns=columns)
 
+    # Save the results to a CSV file
+    output_path = 'optimal_solution_current.csv'
+    df_result.to_csv(output_path, index=False)
+
+    print(f"Results saved to {output_path}")
 

@@ -34,6 +34,7 @@ def optimize():
 
 
     # Loop over each day to create intervals from 6 AM to 6 PM
+    write_csv = []
     for index, row in df.iterrows():
         edges = [
             (1, 2, df['Edge 1'][index]),
@@ -60,29 +61,29 @@ def optimize():
             CG.add_edge(start, end, weight=distance)
 
         # call aco
-        aco_path, aco_cost = aco.aco2(rlg.initGraph(), CG, distWeight, trafficWeight)
-        node_path = []
-        for node in aco_path:
-            node_path.append(CG.nodes[node]['label'])
-        print(f"{df['Time Interval'][index]}: [{' -> '.join(map(str, node_path))}]")
+        try:
+            aco_path, aco_cost = aco.aco2(rlg.initGraph(), CG, distWeight, trafficWeight)
+            node_path = []
+            for node in aco_path:
+                node_path.append(CG.nodes[node]['label'])
+        except Exception:
+            # debug
+            print(f"{df['Time Interval'][index]}: No path found")
+            write_csv.append([df['Time Interval'][index], 'No path found', aco_cost])
+        else:
+            # debug
+            print(f"{df['Time Interval'][index]}: [{' -> '.join(map(str, node_path))}]")
+            write_csv.append([df['Time Interval'][index], ' -> '.join(map(str, node_path)), aco_cost])
+    
+    # Convert the result list into a DataFrame
+    columns = ['Time Interval', 'Optimal Path', 'Cost']
+    df_result = pd.DataFrame(write_csv, columns=columns)
 
-    # # Draw the Graph with Directions
-    # plt.figure(
+    # Save the results to a CSV file
+    output_path = 'optimal_solution_all.csv'
+    df_result.to_csv(output_path, index=False)
 
-    # plt.figure(figsize=(100, 100))
+    print(f"Results saved to {output_path}")
 
-    # # Specify positions manually
-    # pos = nx.get_node_attributes(CG, 'pos')
-    # labels = nx.get_node_attributes(CG, 'label')
+        
 
-    # # Draw nodes and edges with arrows to indicate direction
-    # nx.draw(CG, pos, labels=labels, with_labels=True, node_size=2000, node_color="skyblue",
-    #         font_size=5, edge_color="gray", arrows=True, connectionstyle="arc3,rad=0.1")
-
-    # # Add edge labels for distance and direction
-    # edge_labels = {(u, v): f"{d['weight']}" for u, v, d in CG.edges(data=True)}
-    # nx.draw_networkx_edge_labels(CG, pos, edge_labels=edge_labels, font_size=5, label_pos=0.5)
-
-    # plt.title("Graph with Directional Edges and Labels (ภาษาไทย)")
-    # plt.axis('equal')
-    # plt.show()

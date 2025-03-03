@@ -5,7 +5,7 @@ def combine(distGraph: nx.DiGraph, trafficGraph: nx.DiGraph, distWeight: float, 
     # Init var
     minVal = 0.1
     maxVal = 1
-    newGraph = nx.Graph()
+    newGraph = nx.DiGraph()
     # distance setup
     normDistEdges = {}
     dist_weights = [d['weight'] for u, v, d in distGraph.edges(data=True)]
@@ -30,14 +30,15 @@ def combine(distGraph: nx.DiGraph, trafficGraph: nx.DiGraph, distWeight: float, 
         # normalize the weight
         normTrafficEdges[edge] = minVal + (((weight - minTraffic) / (maxTraffic - minTraffic)) * (maxVal - minVal))
 
-    # combine normalize edges from 2 graphs (if it is แยกอมช(5) then the cost is 1(worst))
+    # combine normalize edges from 2 graphs (if it is แยกอมช(5) then the cost is min(cost * 2, 1))
     normEdges = {}
     for edge in distGraph.edges:
-        normEdges[edge] = distWeight * normDistEdges[edge]
-        + trafficWeight * normTrafficEdges[edge] if ((edge[0] != 5 and edge[1] != 5)
+        normEdges[edge] = (distWeight * normDistEdges[edge]) 
+        + (trafficWeight * normTrafficEdges[edge]) if ((edge[0] != 5 and edge[1] != 5)
                                                      or ((edge[0] == 5 and edge[1] == 12)
                                                         or (edge[0] == 12 and edge[1] == 5))
-                                                     ) else 1
+                                                     ) else min(((distWeight * normDistEdges[edge]) 
+        + (trafficWeight * normTrafficEdges[edge])) * 2, 1)
 
     # add nodes to newGraph with attributes
     for node in distGraph.nodes:

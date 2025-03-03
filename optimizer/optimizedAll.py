@@ -7,7 +7,7 @@ from utils import roadLengthGraph as rlg
 
 def optimize():
     # Create an empty graph
-    CG = nx.Graph()
+    CG = nx.DiGraph()
 
     # Load CSV file
     path = "results.csv"

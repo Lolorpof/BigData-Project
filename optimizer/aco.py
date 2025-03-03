@@ -8,7 +8,7 @@ from utils import combineGraph as cG
 start_node = 1
 end_node = 13
 
-def aco1(distGraph: nx.Graph, trafficGraph: nx.Graph, distWeight: float, trafficWeight: float):
+def aco1(distGraph: nx.DiGraph, trafficGraph: nx.DiGraph, distWeight: float, trafficWeight: float):
     # variables
     number_of_ants = 100
     iterations = 100
@@ -25,7 +25,7 @@ def aco1(distGraph: nx.Graph, trafficGraph: nx.Graph, distWeight: float, traffic
 
     return solver.optimize(graph=traffic_graph, colony=colony, limit=iterations, gen_size=number_of_ants)
 
-def aco2(distGraph: nx.Graph, trafficGraph: nx.Graph, distWeight: float, trafficWeight: float):
+def aco2(distGraph: nx.DiGraph, trafficGraph: nx.DiGraph, distWeight: float, trafficWeight: float):
     # variables
     number_of_ants = 100
     iterations = 100

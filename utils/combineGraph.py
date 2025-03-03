@@ -1,7 +1,7 @@
 # combineGraph.py
 import networkx as nx
 
-def combine(distGraph: nx.Graph, trafficGraph: nx.Graph, distWeight: float, trafficWeight: float):
+def combine(distGraph: nx.DiGraph, trafficGraph: nx.DiGraph, distWeight: float, trafficWeight: float):
     # Init var
     minVal = 0.1
     maxVal = 1

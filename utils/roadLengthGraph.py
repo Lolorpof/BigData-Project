@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 def initGraph():
     # Create an empty graph
-    G = nx.Graph()
+    G = nx.DiGraph()
 
     # Add nodes with labels
     G.add_node(1, label="North Gate", pos=(0, 0))

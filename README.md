@@ -17,6 +17,8 @@ pip install acopy[plot]
 pip install aco_routing
 ```
 
+# Don't forget to insert 'results.csv' file into your own remote repo
+
 # About current time in 'optimizedNow.py'
 
 - Some system may use UTC+0 time so add `timedelta(hours=7)` to `currentTime`

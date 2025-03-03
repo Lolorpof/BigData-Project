@@ -8,6 +8,7 @@ from utils import combineGraph as cG
 start_node = 1
 end_node = 13
 
+# not used
 def aco1(distGraph: nx.Graph, trafficGraph: nx.Graph, distWeight: float, trafficWeight: float):
     # variables
     number_of_ants = 100

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 # Read CSV file
-df = pd.read_csv('optimal_solution_all_di-true.csv') # Change to di or undi
+df = pd.read_csv('optimal_solution_all_undi-true.csv') # Change to di or undi
 
 # Function to classify time intervals into bins
 def classify_time_bin(time_str):

@@ -10,7 +10,7 @@ def optimize():
     CG = nx.DiGraph()
 
     # Load CSV file
-    path = "results.csv"
+    path = "the_amount_of_cars.csv"
     df = pd.read_csv(path)
 
     # Specify weights

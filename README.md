@@ -15,6 +15,7 @@ pip install matplotlib
 pip install acopy
 pip install acopy[plot]
 pip install aco_routing
+pip install mplcursors
 ```
 
 # Don't forget to insert 'results.csv' file into your own remote repo
